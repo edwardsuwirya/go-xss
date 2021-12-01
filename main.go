@@ -51,3 +51,10 @@ func main() {
 		panic(err)
 	}
 }
+
+// Sample request body
+//{
+//"username":"jon",
+//"firstName":"<button onclick='alert(\"sss\")'>Jhon</button>",
+//"lastName":"Key"
+//}
