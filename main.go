@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/microcosm-cc/bluemonday"
 	"net/http"
 )
 
@@ -10,6 +11,14 @@ type User struct {
 	UserName  string `json:"username"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
+}
+
+func NewUser(user User) *User {
+	p := bluemonday.UGCPolicy()
+	user.UserName = p.Sanitize(user.UserName)
+	user.FirstName = p.Sanitize(user.FirstName)
+	user.LastName = p.Sanitize(user.LastName)
+	return &user
 }
 
 func main() {
@@ -31,7 +40,7 @@ func main() {
 			return
 		}
 
-		listOfUsers = append(listOfUsers, newUser)
+		listOfUsers = append(listOfUsers, *NewUser(newUser))
 
 		c.JSON(200, gin.H{
 			"message": "pong",
